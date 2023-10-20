@@ -16,7 +16,7 @@ console.log('Logs from your program will appear here!');
 const server = net.createServer((socket) => {
   socket.on('data', (data) => {
     const request = data.toString();
-    const [start_line, hostLine, uaLine, ...req_content] = request
+    const [start_line, hostLine, uaLine, rConLen, enc, req_content] = request
       .split(`\r\n`)
       .filter((i) => i.length > 0);
     const [method, PATH, version] = start_line.split(` `);
