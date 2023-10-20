@@ -56,6 +56,7 @@ const server = net.createServer((socket) => {
         console.log(`file is`, _file);
 
         //get content from req and write to file
+        console.log(req_content);
         const content = req_content;
         fs.writeFileSync(path.join(_dir, _file), content);
 
