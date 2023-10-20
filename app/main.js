@@ -3,7 +3,12 @@ const { argv } = require('process');
 const fs = require('fs');
 const path = require('path');
 
-let _dir = argv[3];
+let _dir = '';
+argv.forEach((a, ind) => {
+  if (a === '--directory') {
+    _dir = argv[ind + 1];
+  }
+});
 console.log('dir is', _dir);
 
 console.log('Logs from your program will appear here!');
