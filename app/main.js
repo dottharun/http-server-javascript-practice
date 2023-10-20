@@ -2,7 +2,7 @@ const net = require("net");
 const { argv } = require('process');
 const { access, constants } = require('fs');
 
-let _dir = null;
+let _dir = '';
 argv.forEach((flag, ind) => {
   if (flag === '--directory') {
     _dir = argv[ind + 1];
@@ -10,9 +10,11 @@ argv.forEach((flag, ind) => {
 });
 
 const isFileExists = (file) => {
-  let res = null;
+  let res = 0;
   access(path.join(_dir, file), constants.F_OK, (err) => {
-    res = !err;
+    if (!err) {
+      res = 1;
+    }
   });
   return res;
 };
@@ -45,8 +47,8 @@ const server = net.createServer((socket) => {
       response = `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${user_agent.length}\r\n\r\n${user_agent}`;
     } else if (path.includes('/files')) {
       if (isFileExists(path.substring(7))) {
-        const content =
-          (response = `HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: ${content.length}\r\n\r\n${content}`);
+        const content = fs.readFileSync(`_dir/${path.substring(7)}`, 'utf8');
+        response = `HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: ${content.length}\r\n\r\n${content}`;
       } else {
         response = `HTTP/1.1 404 Not Found\r\n\r\n`;
       }
