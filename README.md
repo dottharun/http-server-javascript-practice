@@ -1,3 +1,6 @@
+# Project made from this website - not responsible for this description
+
+
 [![progress-banner](https://backend.codecrafters.io/progress/http-server/69d9e715-a9b3-45a7-936d-a7ea22b74040)](https://app.codecrafters.io/users/codecrafters-bot?r=2qF)
 
 This is a starting point for JavaScript solutions to the
