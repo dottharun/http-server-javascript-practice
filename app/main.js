@@ -62,6 +62,7 @@ const server = net.createServer((socket) => {
         const content = fs.readFileSync(path.join(_dir, _file), 'utf8');
         response = `HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: ${content.length}\r\n\r\n${content}`;
       } catch (err) {
+        console.log(`file sys not found`);
         response = `HTTP/1.1 404 Not Found\r\n\r\n`;
       }
     } else {
