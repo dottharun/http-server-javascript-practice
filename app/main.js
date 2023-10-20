@@ -12,7 +12,7 @@ const server = net.createServer((socket) => {
       .filter((i) => i.length > 0);
     const [method, path, version] = start_line.split(` `);
 
-    const response = '';
+    let response = '';
 
     if (path === '/') {
       response = `HTTP/1.1 200 OK\r\n`;
