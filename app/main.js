@@ -3,7 +3,7 @@ const { argv } = require('process');
 const fs = require('fs');
 const path = require('path');
 
-let _dir = './';
+let _dir = '';
 argv.forEach((a, ind) => {
   if (a === '--directory') {
     _dir = argv[ind + 1];
@@ -28,7 +28,7 @@ const server = net.createServer((socket) => {
 
     let response = null;
 
-    if (method == 'GET') {
+    if (method === 'GET') {
       if (PATH === '/') {
         response = `HTTP/1.1 200 OK\r\n\r\n`;
       } else if (PATH.includes('/echo')) {
@@ -47,6 +47,8 @@ const server = net.createServer((socket) => {
           console.log(`file sys - not found`);
           response = `HTTP/1.1 404 Not Found\r\n\r\n`;
         }
+      } else {
+        response = `HTTP/1.1 404 Not Found\r\n\r\n`;
       }
     } else if (method === 'POST') {
       if (PATH.includes('/files')) {
@@ -58,6 +60,8 @@ const server = net.createServer((socket) => {
         fs.writeFileSync(path.join(_dir, _file), content);
 
         response = `HTTP/1.1 200 OK\r\n\r\n`;
+      } else {
+        response = `HTTP/1.1 404 Not Found\r\n\r\n`;
       }
     } else {
       response = `HTTP/1.1 404 Not Found\r\n\r\n`;
