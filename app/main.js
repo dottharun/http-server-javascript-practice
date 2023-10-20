@@ -12,12 +12,20 @@ const server = net.createServer((socket) => {
       .filter((i) => i.length > 0);
     const [method, path, version] = start_line.split(` `);
 
+    const response = '';
+
     if (path === '/') {
-      socket.write(`HTTP/1.1 200 OK\r\n\r\n`);
+      response = `HTTP/1.1 200 OK\r\n`;
     } else {
-      socket.write(`HTTP/1.1 404 Not Found\r\n\r\n`);
+      response = `HTTP/1.1 404 Not Found\r\n`;
     }
 
+    if (path.includes('/echo')) {
+      const content = path.substring(6);
+      response = `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${content.length}\r\n\r\n${content}`;
+    }
+
+    socket.write(response);
     socket.end();
   });
 
