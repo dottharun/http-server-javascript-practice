@@ -1,6 +1,7 @@
 const net = require("net");
 const { argv } = require('process');
 const { access, constants } = require('fs');
+const path = require('path');
 
 let _dir = '';
 argv.forEach((flag, ind) => {
