@@ -9,6 +9,7 @@ argv.forEach((flag, ind) => {
     _dir = argv[ind + 1];
   }
 });
+console.log('dir is', _dir);
 
 const isFileExists = (file) => {
   let res = 0;
@@ -30,7 +31,7 @@ const server = net.createServer((socket) => {
     const [start_line, ...headers] = request
       .split(`\r\n`)
       .filter((i) => i.length > 0);
-    const [method, path, version] = start_line.split(` `);
+    const [method, PATH, version] = start_line.split(` `);
 
     let user_agent = null;
     if (typeof headers[1] != 'undefined') {
@@ -39,16 +40,18 @@ const server = net.createServer((socket) => {
 
     let response = null;
 
-    if (path === '/') {
+    if (PATH === '/') {
       response = `HTTP/1.1 200 OK\r\n\r\n`;
-    } else if (path.includes('/echo')) {
-      const content = path.substring(6);
+    } else if (PATH.includes('/echo')) {
+      const content = PATH.substring(6);
       response = `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${content.length}\r\n\r\n${content}`;
-    } else if (path.includes('/user-agent')) {
+    } else if (PATH.includes('/user-agent')) {
       response = `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${user_agent.length}\r\n\r\n${user_agent}`;
-    } else if (path.includes('/files')) {
-      if (isFileExists(path.substring(7))) {
-        const content = fs.readFileSync(`_dir/${path.substring(7)}`, 'utf8');
+    } else if (PATH.includes('/files')) {
+      const _file = PATH.substring(7);
+      console.log(`file is`, _file);
+      if (isFileExists(_file)) {
+        const content = fs.readFileSync(path.join(_dir, _file), 'utf8');
         response = `HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: ${content.length}\r\n\r\n${content}`;
       } else {
         response = `HTTP/1.1 404 Not Found\r\n\r\n`;
