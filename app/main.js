@@ -3,7 +3,7 @@ const { argv } = require('process');
 const fs = require('fs');
 const path = require('path');
 
-let _dir = argv[4];
+let _dir = argv[3];
 // argv.forEach((flag, ind) => {
 //   if (flag === '--directory') {
 //     _dir = argv[ind + 1];
