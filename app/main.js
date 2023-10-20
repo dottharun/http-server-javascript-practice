@@ -7,13 +7,18 @@ console.log("Logs from your program will appear here!");
 const server = net.createServer((socket) => {
   socket.on('data', (data) => {
     const request = data.toString();
-    const [start_line, ...headers] = request
+    const [start_line, ...headerLines] = request
       .split(`\r\n`)
       .filter((i) => i.length > 0);
     const [method, path, version] = start_line.split(` `);
 
     //headers
-    const user_agent = headers[1].split(' ')[1];
+    const headers = Object.fromEntries(
+      headerLines.map((line) => {
+        const colon = line.indexOf(':');
+        return [line.slice(0, colon), line.slice(colon + 1).trimStart()];
+      })
+    );
 
     let response = '';
 
