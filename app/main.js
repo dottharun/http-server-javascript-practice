@@ -1,25 +1,15 @@
 const net = require("net");
 const { argv } = require('process');
-const { access, constants } = require('fs');
+const fs = require('fs');
 const path = require('path');
 
-let _dir = '';
-argv.forEach((flag, ind) => {
-  if (flag === '--directory') {
-    _dir = argv[ind + 1];
-  }
-});
+let _dir = argv[4];
+// argv.forEach((flag, ind) => {
+//   if (flag === '--directory') {
+//     _dir = argv[ind + 1];
+//   }
+// });
 console.log('dir is', _dir);
-
-const isFileExists = (file) => {
-  let res = 0;
-  access(path.join(_dir, file), constants.F_OK, (err) => {
-    if (!err) {
-      res = 1;
-    }
-  });
-  return res;
-};
 
 // You can use print statements as follows for debugging, they'll be visible when running tests.
 console.log('Logs from your program will appear here!');
@@ -51,18 +41,11 @@ const server = net.createServer((socket) => {
       const _file = PATH.substring(7);
       console.log(`file is`, _file);
 
-      // if (isFileExists(_file)) {
-      //   const content = fs.readFileSync(path.join(_dir, _file), 'utf8');
-      //   response = `HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: ${content.length}\r\n\r\n${content}`;
-      // } else {
-      //   response = `HTTP/1.1 404 Not Found\r\n\r\n`;
-      // }
-
-      try {
-        const content = fs.readFileSync(path.join(_dir, _file), 'utf8');
+      if (fs.existsSync(path.join(_dir, _file))) {
+        const content = fs.readFileSync(path.join(_dir, _file));
         response = `HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: ${content.length}\r\n\r\n${content}`;
-      } catch (err) {
-        console.log(`file sys not found`);
+      } else {
+        console.log(`file sys - not found`);
         response = `HTTP/1.1 404 Not Found\r\n\r\n`;
       }
     } else {
