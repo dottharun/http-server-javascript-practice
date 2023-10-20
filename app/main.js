@@ -50,10 +50,18 @@ const server = net.createServer((socket) => {
     } else if (PATH.includes('/files')) {
       const _file = PATH.substring(7);
       console.log(`file is`, _file);
-      if (isFileExists(_file)) {
+
+      // if (isFileExists(_file)) {
+      //   const content = fs.readFileSync(path.join(_dir, _file), 'utf8');
+      //   response = `HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: ${content.length}\r\n\r\n${content}`;
+      // } else {
+      //   response = `HTTP/1.1 404 Not Found\r\n\r\n`;
+      // }
+
+      try {
         const content = fs.readFileSync(path.join(_dir, _file), 'utf8');
         response = `HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: ${content.length}\r\n\r\n${content}`;
-      } else {
+      } catch (err) {
         response = `HTTP/1.1 404 Not Found\r\n\r\n`;
       }
     } else {
