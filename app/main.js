@@ -9,7 +9,7 @@ const server = net.createServer((socket) => {
     const request = data.toString();
     const [start_line, ...headers] = request
       .split(`\r\n`)
-      .filter((i) => i.length() > 0);
+      .filter((i) => i.length > 0);
     const [method, path, version] = start_line.split(` `);
 
     if (path === '/') {
