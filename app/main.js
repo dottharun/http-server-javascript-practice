@@ -13,7 +13,7 @@ const server = net.createServer((socket) => {
     const [method, path, version] = start_line.split(` `);
 
     let user_agent = '';
-    if (headers[1] != 'undefined') {
+    if (typeof headers[1] != 'undefined') {
       user_agent = headers[1].split(' ')[1];
     }
 
