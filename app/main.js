@@ -23,7 +23,7 @@ const server = net.createServer((socket) => {
       const content = path.substring(6);
       response = `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${content.length}\r\n\r\n${content}`;
     } else if (path.includes('/user-agent')) {
-      response = `HTTP/1.1 200 OK\r\n\r\nContent-Type: text/plain\r\nContent-Length: ${user_agent.length}\r\n\r\n${user_agent}`;
+      response = `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${user_agent.length}\r\n\r\n${user_agent}`;
     } else {
       response = `HTTP/1.1 404 Not Found\r\n\r\n`;
     }
