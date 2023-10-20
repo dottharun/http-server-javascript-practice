@@ -12,13 +12,10 @@ const server = net.createServer((socket) => {
       .filter((i) => i.length > 0);
     const [method, path, version] = start_line.split(` `);
 
-    //headers
-    const headers = Object.fromEntries(
-      headerLines.map((line) => {
-        const colon = line.indexOf(':');
-        return [line.slice(0, colon), line.slice(colon + 1).trimStart()];
-      })
-    );
+    let user_agent = '';
+    if (headers[1] != 'undefined') {
+      user_agent = headers[1].split(' ')[1];
+    }
 
     let response = '';
 
